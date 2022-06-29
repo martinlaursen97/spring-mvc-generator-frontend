@@ -3,13 +3,19 @@ body {
 }
 
 #sidebar-wrapper {
+  z-index: -1;
+  float: left;
   min-height: 100vh;
   margin-left: -15rem;
   -webkit-transition: margin .25s ease-out;
   -moz-transition: margin .25s ease-out;
   -o-transition: margin .25s ease-out;
   transition: margin .25s ease-out;
+
+
 }
+
+
 
 #sidebar-wrapper .sidebar-heading {
   padding: 0.875rem 1.25rem;
@@ -41,4 +47,11 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+
+.entity-form {
+  height: 500px;
+  width: 500px;
+  background-color: red;
 }
