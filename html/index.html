@@ -8,7 +8,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="../css/stylesheet.css">
   <script src="../js/modal.js" defer></script>
-  <script src="../js/form.js" defer></script>
+  <script src="../js/vectorFormHandler.js" defer></script>
+  <script src="../js/entityLoader.js" defer></script>
 </head>
 
 <body>
@@ -44,29 +45,15 @@
 
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
-  <div class="bg-light border-right vh-100" id="sidebar-wrapper" style="box-shadow: 3px 0px 10px lightgray">
+  <div class="bg-light border-right " id="sidebar-wrapper" style="box-shadow: 3px 0px 10px lightgray">
     <div class="sidebar-heading">- Entities</div>
-    <div class="list-group list-group-flush overflow-auto h-100" >
-      <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 1</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 2</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 3</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 4</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 5</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 6</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 7</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 8</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 9</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 10</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 11</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 12</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 13</a>
-      <a href="#" class="list-group-item list-group-item-action bg-light">Menu 14</a>
+    <div class="list-group  h-100" id="entity-list">
+
     </div>
   </div>
 
   <div class="container" >
-    <h1 class="display-3 p-1" style="display: inline-block">Entity name</h1>
+    <h1 class="display-3 p-1"  id="page-entity-name" style="display: inline-block">Entity name</h1>
     <div class="container- shadow p-3 mb-5 bg-white rounded w-100 p-4 " style="margin-top: 100px">
     <form>
 
@@ -74,14 +61,23 @@
         <h1 class="display-6 p-1" style="display: inline-block">Variables</h1>
         <!-- Button to Open the Modal -->
         <button onclick="createVariable('New variable')" type="button" class="btn btn-outline-dark btn-lg" style="float:right" data-bs-toggle="modal" data-bs-target="#myModal">+</button>
+
+        <div id="variable-list">
+
+        </div>
       </div>
 
-
       <hr>
+
       <div class="container">
         <h1 class="display-6 p-1" style="display: inline-block">Relationships</h1>
         <!-- Button to Open the Modal -->
         <button onclick="createRelation('New relation')" type="button" class="btn btn-outline-dark btn-lg" style="float:right" data-bs-toggle="modal" data-bs-target="#myModal">+</button>
+
+        <div id="relationship-list">
+
+
+        </div>
       </div>
     </form>
   </div>
