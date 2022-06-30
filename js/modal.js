@@ -11,8 +11,9 @@ function setTitle(str) {
 function createVariable(str) {
   clearModal();
   setTitle(str);
-  setFormDestination("http://localhost:8080/api/variables")
   setMethod("POST");
+  setFormDestination("http://localhost:8080/api/variables")
+
 
   createInput("Data type","a","val1","text","");
   createInput("Variable name","b","val2","text","");
@@ -25,12 +26,38 @@ async function createRelation(str) {
 
   clearModal();
   setTitle(str);
-  setFormDestination("http://localhost:8080/api/relations")
   setMethod("POST");
+  setFormDestination("http://localhost:8080/api/relations")
 
   createDropdownInput(relations, "Relation", "val1");
   createInput("Name", "a", "val2", "text", "");
   createDropdownInput(entities, "Entity", "val3");
+}
+
+function updateVariable(variable) {
+  clearModal();
+  setTitle(variable.val1);
+  setMethod("PUT");
+  setFormDestination("http://localhost:8080/api/variables/" + variable.id);
+
+  alert(method);
+  createInput("Data type","a","val1","text", variable.val1);
+  createInput("Variable name","b","val2","text", variable.val2);
+  createInput("Column name","c","val3","text", variable.val3);
+}
+
+async function updateRelation(variable) {
+  let relations = ["ManyToOne", "OneToMany", "OneToOne"];
+  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
+
+  clearModal();
+  setTitle(variable.val1);
+  setMethod("PUT");
+  setFormDestination("http://localhost:8080/api/relations/" + variable.id);
+
+  createDropdownInput(relations, "Relation", "val1", variable.val1);
+  createInput("Name", "a", "val2", "text", variable.val2);
+  createDropdownInput(entities, "Entity", "val3", variable.val3);
 }
 
 function setFormDestination(action) {
@@ -39,7 +66,7 @@ function setFormDestination(action) {
 }
 
 function setMethod(m) {
-  form.setAttribute("method", m);
+  method = m;
 }
 
 function createInput(inputName, placeHolder, idName, type, value) {
@@ -97,11 +124,11 @@ function createDropdownInput(lst, inputName, idName, selectName) {
     }
 
     select.add(new Option(option, option));
-    //if (selectName !== undefined) {
-    //  if (selectName === option) {
-    //    select.selectedIndex = i;
-    //  }
-    //}
+    if (selectName !== undefined) {
+      if (selectName === option) {
+        select.selectedIndex = i;
+      }
+    }
   }
 
   inputGroup.appendChild(label);

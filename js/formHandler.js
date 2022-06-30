@@ -7,6 +7,8 @@ async function handleFormSubmit(event) {
   const form = event.currentTarget;
   const url = form.action;
 
+
+
   try {
     const formData = new FormData(form);
     await saveVar(url, formData);
@@ -34,8 +36,9 @@ async function saveVar(url, data) {
 }
 
 async function postJson(url, data) {
+
   let fetchOptions = {
-    method: "post",
+    method: method,
     headers: {
       "Content-Type": "application/json",
     },

@@ -37,14 +37,14 @@ function loadCurrentEntity() {
 
   // Variables
   let variableList = document.getElementById("variable-list");
-  insertListItems(variableList, entity.variables);
+  insertListItems(variableList, entity.variables, true);
 
   // Relations
   let relationList = document.getElementById("relationship-list");
-  insertListItems(relationList, entity.relations);
+  insertListItems(relationList, entity.relations, false);
 }
 
-function insertListItems(element, lst) {
+function insertListItems(element, lst, isVariable) {
   while (element.hasChildNodes()) {
     element.removeChild(element.firstChild);
   }
@@ -55,9 +55,17 @@ function insertListItems(element, lst) {
     aTag.classList.add("list-group-item-action");
     aTag.classList.add("bg-light");
     aTag.id = "t";
-    aTag.innerHTML = v.val1 + " " + v.val2 + " " + v.val3;
+    aTag.innerHTML = v.val1 + " : " + v.val2 + " : " + v.val3;
     aTag.href = "#";
-    aTag.addEventListener("click", () => {
+    aTag.setAttribute("data-bs-toggle", "modal");
+    aTag.setAttribute("data-bs-target", "#myModal");
+    aTag.addEventListener("click", async () => {
+      if (isVariable) {
+        updateVariable(v);
+      } else {
+        await updateRelation(v);
+      }
+
     });
     element.appendChild(aTag);
   });
