@@ -1,16 +1,15 @@
-
 const formSubmit = document.getElementById("modal-form");
 formSubmit.addEventListener("submit", handleFormSubmit);
-
 
 async function handleFormSubmit(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
+  const url = form.action;
 
   try {
     const formData = new FormData(form);
-    await saveVar("http://localhost:8080/api/vector3s", formData);
+    await saveVar(url, formData);
   } catch (err) {
     alert(err);
   }
@@ -19,21 +18,18 @@ async function handleFormSubmit(event) {
 
 async function saveVar(url, data) {
   let variable = {};
-  variable.var1 = data.get("var1");
-  variable.var2 = data.get("var2");
-  variable.var3 = data.get("var3");
+  variable.val1 = data.get("val1");
+  variable.val2 = data.get("val2");
+  variable.val3 = data.get("val3");
+  variable.entityDetail = JSON.parse(localStorage.getItem("currentEntity"));
 
-  let entityDetail = {};
-
-
-  let response = await postJson(url, data);
+  let response = await postJson(url, variable);
 
   if (response.ok) {
-    let entities = JSON.parse(localStorage.getItem("entities"));
-    entities.push(data);
-    localStorage.setItem("entities", entities);
+    await setCurrentEntityById(variable.entityDetail.id);
+    loadCurrentEntity();
   } else {
-    alert("Failed to save: " + JSON.stringify(data));
+    alert("Failed to save: " + JSON.stringify(variable));
   }
 }
 
@@ -45,11 +41,5 @@ async function postJson(url, data) {
     },
     body: JSON.stringify(data)
   };
-  let response = await fetch(url, fetchOptions);
-
-  if (response.ok) {
-
-  } else {
-    alert("error");
-  }
+  return await fetch(url, fetchOptions);
 }

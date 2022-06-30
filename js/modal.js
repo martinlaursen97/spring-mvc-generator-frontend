@@ -1,6 +1,9 @@
 let title = document.querySelector(".modal-title")
 let inputField = document.getElementById("field");
 
+let method;
+let form = document.getElementById("modal-form");
+
 function setTitle(str) {
   title.innerHTML = str;
 }
@@ -8,22 +11,35 @@ function setTitle(str) {
 function createVariable(str) {
   clearModal();
   setTitle(str);
+  setFormDestination("http://localhost:8080/api/variables")
+  setMethod("POST");
 
-  createInput("Data type","a","var1","text","");
-  createInput("Variable name","b","var2","text","");
-  createInput("Column name","c","var3","text","");
+  createInput("Data type","a","val1","text","");
+  createInput("Variable name","b","val2","text","");
+  createInput("Column name","c","val3","text","");
 }
 
-function createRelation(str) {
+async function createRelation(str) {
   let relations = ["ManyToOne", "OneToMany", "OneToOne"];
-  let entities = ["City", "Person"];
+  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
 
   clearModal();
   setTitle(str);
+  setFormDestination("http://localhost:8080/api/relations")
+  setMethod("POST");
 
-  createInput("var1","a","var1","text","");
-  createDropdownInput(relations, "Relation", "var2");
-  createDropdownInput(entities, "Entity", "var3");
+  createDropdownInput(relations, "Relation", "val1");
+  createInput("Name", "a", "val2", "text", "");
+  createDropdownInput(entities, "Entity", "val3");
+}
+
+function setFormDestination(action) {
+  form.setAttribute("action", action);
+  form.setAttribute("method", method);
+}
+
+function setMethod(m) {
+  form.setAttribute("method", m);
 }
 
 function createInput(inputName, placeHolder, idName, type, value) {
@@ -73,8 +89,14 @@ function createDropdownInput(lst, inputName, idName, selectName) {
   select.name = idName;
 
   for (let i = 0; i < lst.length; i++) {
-    let option = lst[i];
-    select.add(new Option(option, String(i)));
+    let option;
+    if (lst[i].name == undefined) {
+      option = lst[i];
+    } else {
+      option = lst[i].name;
+    }
+
+    select.add(new Option(option, option));
     //if (selectName !== undefined) {
     //  if (selectName === option) {
     //    select.selectedIndex = i;

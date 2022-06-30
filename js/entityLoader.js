@@ -1,6 +1,5 @@
 async function setCurrentEntityById(id) {
   let entity = await fetchEntityById(id).then(r => r.json());
-
   localStorage.setItem("currentEntity", JSON.stringify(entity));
 }
 
@@ -9,8 +8,8 @@ async function fetchEntityById(id) {
 }
 
 onload = async function loadEntitiesToSideNav() {
-  loadCurrentEntity();
-  let entities = await fetch("http://localhost:8080/api/entity-details/").then(r => r.json());
+  loadCurrentEntity()
+  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
 
   let group = document.getElementById("entity-list");
 
@@ -20,7 +19,7 @@ onload = async function loadEntitiesToSideNav() {
     aTag.classList.add("list-group-item-action");
     aTag.classList.add("bg-light");
     aTag.id = "t";
-    aTag.innerHTML = e.entityName;
+    aTag.innerHTML = e.name;
     aTag.href = "#";
     aTag.addEventListener("click", async () => {
       await setCurrentEntityById(e.id);
@@ -34,7 +33,7 @@ onload = async function loadEntitiesToSideNav() {
 function loadCurrentEntity() {
   let entity = JSON.parse(localStorage.getItem("currentEntity"));
   let title = document.getElementById("page-entity-name");
-  title.innerText = entity.entityName;
+  title.innerText = entity.name;
 
   // Variables
   let variableList = document.getElementById("variable-list");
