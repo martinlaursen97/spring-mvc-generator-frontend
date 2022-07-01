@@ -9,9 +9,32 @@ async function handleFormSubmit(event) {
 
   try {
     const formData = new FormData(form);
-    await saveVar(url, formData);
+    if (document.querySelector(".modal-title").innerText == "New entity") {
+
+      await saveEntity(url, formData)
+    } else {
+      await saveVar(url, formData);
+    }
   } catch (err) {
     alert(err);
+  }
+}
+
+async function saveEntity(url, data) {
+  let entity = {};
+  entity.name = data.get("name");
+  entity.namePlural = data.get("namePlural");
+  entity.hasCreate = document.getElementById("hasCreate").checked;
+  entity.hasRead = document.getElementById("hasRead").checked;
+  entity.hasUpdate = document.getElementById("hasUpdate").checked;
+  entity.hasDelete = document.getElementById("hasDelete").checked;
+
+  let response = await postJson(url, entity);
+
+  if (response.ok) {
+    await loadEntitiesToSideNav();
+  } else {
+    alert("Failed to save: " + JSON.stringify(entity));
   }
 }
 
@@ -61,4 +84,10 @@ async function deleteEntity(url) {
   } else {
     alert("Error!");
   }
+}
+
+async function downloadProject() {
+  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
+  method = "POST";
+  await postJson("http://localhost:8080/api/entity-details/export", entities);
 }

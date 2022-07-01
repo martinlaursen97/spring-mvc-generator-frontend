@@ -45,14 +45,23 @@
 
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
-  <div class="bg-light border-right " id="sidebar-wrapper" style="box-shadow: 3px 0px 10px lightgray">
-    <div class="sidebar-heading">- Entities</div>
-    <div class="list-group  h-100" id="entity-list">
+  <div class="bg-light position-fixed fixed-content" id="sidebar-wrapper" style="box-shadow: 3px 0px 10px lightgray; z-index: 1">
+    <div class="sidebar-heading ">
+      Entities
+      <button onclick="createEntity('New entity')" type="button" style="height:40px; width:40px; float:right; margin-bottom:15px;" class="btn btn-outline-dark" style="float:right" data-bs-toggle="modal" data-bs-target="#myModal">+</button>
+    </div>
 
+
+    <div class="list-group overflow-auto" style="overflow: auto" id="entity-list">
+
+    </div>
+
+    <div class="sidebar-heading w-100" style="bottom:0; position:absolute; border-top:1px solid lightgrey"">
+      <button onclick="downloadProject()" type="button" style="height:80px; width:200px;" class="btn btn-outline-dark" style="float:right">Download project</button>
     </div>
   </div>
 
-  <div class="container" >
+  <div class="container" style="position:relative">
     <h1 class="display-3 p-1"  id="page-entity-name" style="display: inline-block">Entity name</h1>
     <div class="container- shadow p-3 mb-5 bg-white rounded w-100 p-4 " style="margin-top: 100px">
     <form>

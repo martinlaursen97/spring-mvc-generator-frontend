@@ -13,9 +13,8 @@ body {
   transition: margin .25s ease-out;
 
 
+
 }
-
-
 
 #sidebar-wrapper .sidebar-heading {
   padding: 0.875rem 1.25rem;
@@ -47,6 +46,11 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+}
+
+.fixed-content {
+  position: sticky;
+  top: 0;
 }
 
 #t:hover {

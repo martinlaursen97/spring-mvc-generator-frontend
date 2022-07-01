@@ -8,6 +8,45 @@ function setTitle(str) {
   title.innerHTML = str;
 }
 
+function createEntity(str) {
+  clearModal();
+  setTitle(str);
+  setMethod("POST");
+  setFormDestination("http://localhost:8080/api/entity-details")
+
+  createInput("Name","a","name","text","");
+  createInput("Name plural","b","namePlural","text","");
+  createInlineCheckBoxInput("Create", "hasCreate");
+  createInlineCheckBoxInput("Read", "hasRead");
+  createInlineCheckBoxInput("Update", "hasUpdate");
+  createInlineCheckBoxInput("Delete", "hasDelete");
+}
+
+function createInlineCheckBoxInput(inputName, idName) {
+  let div = document.createElement("div");
+  div.classList.add("form-check");
+  div.classList.add("form-check-inline");
+
+  let input = document.createElement("input");
+  input.classList.add("form-check-input");
+  input.type = "checkbox";
+  input.id = idName;
+  input.value = "false";
+
+  let label = document.createElement("label");
+  label.classList.add("form-check-label");
+  label.setAttribute("for", idName);
+  label.innerText = inputName;
+
+  div.appendChild(input);
+  div.appendChild(label);
+
+  inputField.appendChild(div);
+
+
+
+}
+
 function createVariable(str) {
   clearModal();
   setTitle(str);
@@ -115,7 +154,11 @@ function createDropdownInput(lst, inputName, idName, selectName) {
   select.setAttribute("aria-describedby", "inputGroup-sizing-sm");
   select.name = idName;
 
+  let title = document.getElementById("page-entity-name").innerText;
+  lst = lst.filter(e => e.name != title);
+
   for (let i = 0; i < lst.length; i++) {
+
     let option;
     if (lst[i].name == undefined) {
       option = lst[i];

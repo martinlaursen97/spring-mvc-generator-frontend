@@ -7,12 +7,18 @@ async function fetchEntityById(id) {
   return await fetch("http://localhost:8080/api/entity-details/" + id);
 }
 
-onload = async function loadEntitiesToSideNav() {
+onload = loadEntitiesToSideNav();
+
+async function loadEntitiesToSideNav() {
   await setCurrentEntityById(JSON.parse(localStorage.getItem("currentEntity")).id);
   loadCurrentEntity()
   let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
 
   let group = document.getElementById("entity-list");
+
+  while (group.hasChildNodes()) {
+    group.removeChild(group.firstChild);
+  }
 
   entities.forEach(e => {
     let aTag = document.createElement("a");
