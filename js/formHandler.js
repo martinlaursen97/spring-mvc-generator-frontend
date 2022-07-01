@@ -7,8 +7,6 @@ async function handleFormSubmit(event) {
   const form = event.currentTarget;
   const url = form.action;
 
-
-
   try {
     const formData = new FormData(form);
     await saveVar(url, formData);
@@ -30,13 +28,13 @@ async function saveVar(url, data) {
   if (response.ok) {
     await setCurrentEntityById(variable.entityDetail.id);
     loadCurrentEntity();
+
   } else {
     alert("Failed to save: " + JSON.stringify(variable));
   }
 }
 
 async function postJson(url, data) {
-
   let fetchOptions = {
     method: method,
     headers: {
@@ -45,4 +43,22 @@ async function postJson(url, data) {
     body: JSON.stringify(data)
   };
   return await fetch(url, fetchOptions);
+}
+
+async function deleteEntity(url) {
+  let fetchOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  let response = await fetch(url, fetchOptions);
+
+  if (response.ok) {
+    let id = JSON.parse(localStorage.getItem("currentEntity")).id;
+    await setCurrentEntityById(id);
+    loadCurrentEntity();
+  } else {
+    alert("Error!");
+  }
 }

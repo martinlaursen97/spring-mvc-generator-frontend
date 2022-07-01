@@ -14,7 +14,6 @@ function createVariable(str) {
   setMethod("POST");
   setFormDestination("http://localhost:8080/api/variables")
 
-
   createInput("Data type","a","val1","text","");
   createInput("Variable name","b","val2","text","");
   createInput("Column name","c","val3","text","");
@@ -40,7 +39,6 @@ function updateVariable(variable) {
   setMethod("PUT");
   setFormDestination("http://localhost:8080/api/variables/" + variable.id);
 
-  alert(method);
   createInput("Data type","a","val1","text", variable.val1);
   createInput("Variable name","b","val2","text", variable.val2);
   createInput("Column name","c","val3","text", variable.val3);
@@ -51,6 +49,7 @@ async function updateRelation(variable) {
   let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
 
   clearModal();
+
   setTitle(variable.val1);
   setMethod("PUT");
   setFormDestination("http://localhost:8080/api/relations/" + variable.id);
@@ -59,6 +58,7 @@ async function updateRelation(variable) {
   createInput("Name", "a", "val2", "text", variable.val2);
   createDropdownInput(entities, "Entity", "val3", variable.val3);
 }
+
 
 function setFormDestination(action) {
   form.setAttribute("action", action);
@@ -141,3 +141,7 @@ function clearModal() {
     inputField.removeChild(inputField.firstChild);
   }
 }
+
+
+
+
