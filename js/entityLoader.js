@@ -107,5 +107,4 @@ function insertListItems(element, lst, isVariable) {
 
     element.appendChild(li);
   });
-
 }

@@ -22,31 +22,6 @@ function createEntity(str) {
   createInlineCheckBoxInput("Delete", "hasDelete");
 }
 
-function createInlineCheckBoxInput(inputName, idName) {
-  let div = document.createElement("div");
-  div.classList.add("form-check");
-  div.classList.add("form-check-inline");
-
-  let input = document.createElement("input");
-  input.classList.add("form-check-input");
-  input.type = "checkbox";
-  input.id = idName;
-  input.value = "false";
-
-  let label = document.createElement("label");
-  label.classList.add("form-check-label");
-  label.setAttribute("for", idName);
-  label.innerText = inputName;
-
-  div.appendChild(input);
-  div.appendChild(label);
-
-  inputField.appendChild(div);
-
-
-
-}
-
 function createVariable(str) {
   clearModal();
   setTitle(str);
@@ -179,12 +154,30 @@ function createDropdownInput(lst, inputName, idName, selectName) {
   inputField.appendChild(inputGroup);
 }
 
+function createInlineCheckBoxInput(inputName, idName) {
+  let div = document.createElement("div");
+  div.classList.add("form-check");
+  div.classList.add("form-check-inline");
+
+  let input = document.createElement("input");
+  input.classList.add("form-check-input");
+  input.type = "checkbox";
+  input.id = idName;
+  input.value = "false";
+
+  let label = document.createElement("label");
+  label.classList.add("form-check-label");
+  label.setAttribute("for", idName);
+  label.innerText = inputName;
+
+  div.appendChild(input);
+  div.appendChild(label);
+
+  inputField.appendChild(div);
+}
+
 function clearModal() {
   while (inputField.hasChildNodes()) {
     inputField.removeChild(inputField.firstChild);
   }
 }
-
-
-
-
