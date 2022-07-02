@@ -7,6 +7,8 @@ async function fetchEntityById(id) {
   return await fetch("http://localhost:8080/api/entity-details/" + id);
 }
 
+
+
 onload = loadEntitiesToSideNav();
 
 async function loadEntitiesToSideNav() {

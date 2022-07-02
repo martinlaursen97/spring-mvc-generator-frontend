@@ -89,5 +89,13 @@ async function deleteEntity(url) {
 async function downloadProject() {
   let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
   method = "POST";
-  await postJson("http://localhost:8080/api/entity-details/export", entities);
+
+  postJson("http://localhost:8080/api/entity-details/download", entities)
+    .then((res) => { return res.blob(); })
+    .then((data) => {
+      const a = document.createElement("a");
+      a.href = window.URL.createObjectURL(data);
+      a.download = "test.zip";
+      a.click();
+    });
 }
