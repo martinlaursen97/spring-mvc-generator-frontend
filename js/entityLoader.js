@@ -7,12 +7,17 @@ async function fetchEntityById(id) {
   return await fetch("http://localhost:8080/api/entity-details/" + id);
 }
 
-
-
 onload = loadEntitiesToSideNav();
 
 async function loadEntitiesToSideNav() {
-  await setCurrentEntityById(JSON.parse(localStorage.getItem("currentEntity")).id);
+  let currentId = JSON.parse(localStorage.getItem("currentEntity")).id;
+
+  // yikes
+  if (currentId == undefined) {
+    currentId = 1;
+  }
+
+  await setCurrentEntityById(currentId);
   loadCurrentEntity()
   let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
 
