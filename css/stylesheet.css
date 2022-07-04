@@ -3,7 +3,7 @@ body {
 }
 
 #sidebar-wrapper {
-
+  position: relative;
   float: left;
   min-height: 100vh;
   margin-left: -15rem;
@@ -20,9 +20,16 @@ body {
   padding: 0.875rem 1.25rem;
   font-size: 1.2rem;
 }
+.list-group-item:hover {
+  cursor: pointer;
+}
 
 #sidebar-wrapper .list-group {
-  width: 15rem;
+  width: 14rem;
+  margin: 10px;
+  overflow-y: auto;
+  max-height: -webkit-calc(89% - 109px);
+
 }
 
 #page-content-wrapper {
@@ -48,19 +55,11 @@ body {
   }
 }
 
-.fixed-content {
-  position: sticky;
-  top: 0;
+#top-right-href {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  font-size: 30px;
+
 }
 
-#t:hover {
-
-  color: red;
-}
-
-
-.entity-form {
-  height: 500px;
-  width: 500px;
-  background-color: red;
-}

@@ -9,8 +9,22 @@ async function handleFormSubmit(event) {
 
   try {
     const formData = new FormData(form);
-    // save
+    const plainFormData = Object.fromEntries(formData.entries());
+
+    await sendJson(url, plainFormData);
   } catch (err) {
     alert(err);
   }
+}
+
+async function sendJson(url, data) {
+  const fetchOptions = {
+    method: method,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  };
+
+  let response = await fetch(url, fetchOptions);
 }

@@ -44,56 +44,54 @@
 
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
-  <div class="bg-light fixed-content" id="sidebar-wrapper" style="box-shadow: 3px 0px 10px lightgray; z-index: 1">
+  <div class="bg-light" id="sidebar-wrapper" style="box-shadow: 3px 0px 10px lightgray; z-index: 1;">
     <div class="sidebar-heading ">
       Entities
       <button onclick="createEntity('New entity')" type="button" style="height:40px; width:40px; float:right; margin-bottom:15px;" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#myModal">+</button>
     </div>
 
-    <div class="list-group overflow-auto" style="overflow: auto" id="entity-list">
+    <hr>
+
+    <div class="list-group" id="entity-list">
 
     </div>
 
-    <div class="sidebar-heading w-100" style="bottom:0; position:absolute; border-top:1px solid lightgrey">
+    <div class="sidebar-heading w-100 position-absolute"   style="bottom:0; border-top:1px solid lightgrey">
       <button onclick="" type="button" style="height:80px; width:200px;" class="btn btn-outline-dark">Download project</button>
     </div>
   </div>
 
-  <div class="container" style="position:relative">
-    <h1 class="display-3 p-1"  id="page-entity-name" style="display: inline-block">Entity name</h1>
-    <button onclick="updateEntity('Update entity: ')" type="button" class="btn btn-outline-dark btn-lg" style="margin-bottom:30px; margin-left:10px" data-bs-toggle="modal" data-bs-target="#myModal">#</button>
-    <button onclick="" type="button" class="btn btn-outline-danger btn-lg"  style="margin-bottom:30px;">-</button>
+  <a href="projects.html" id="top-right-href">Projects</a>
 
-
-
+  <div class="container" style="max-width: 900px">
+    <h1 class="display-3 p-1"  id="page-entity-name" style="display: inline-block; margin-top: 45px">Entity name</h1>
+    <button onclick="updateEntity('Update entity: ')" type="button" class="btn btn-outline-dark btn-lg" style="margin-bottom:30px; margin-left:10px" data-bs-toggle="modal" data-bs-target="#myModal">Update</button>
+    <button onclick="" type="button" class="btn btn-outline-danger btn-lg"  style="margin-bottom:30px;">Delete</button>
 
     <div class="container- shadow p-3 mb-5 bg-white rounded w-100 p-4 " style="margin-top: 100px">
-
-
 
         <h1 class="display-6 p-1" style="display: inline-block">Variables</h1>
         <!-- Button to Open the Modal -->
         <button onclick="createVariable('New variable')" type="button" class="btn btn-outline-dark btn-lg" style="float:right" data-bs-toggle="modal" data-bs-target="#myModal">+</button>
 
-        <div id="variable-list">
+        <div class="list-group" id="variable-list">
 
         </div>
 
-
       <hr>
-
 
         <h1 class="display-6 p-1" style="display: inline-block">Relationships</h1>
         <!-- Button to Open the Modal -->
         <button onclick="createRelation('New relation')" type="button" class="btn btn-outline-dark btn-lg" style="float:right" data-bs-toggle="modal" data-bs-target="#myModal">+</button>
 
-        <div id="relationship-list">
+        <div class="list-group" id="relationship-list">
+          <div class="list-group-item list-group-item-action" >HELLo</div>
+          <div class="list-group-item list-group-item-action" >HELLo</div>
+
 
         </div>
 
-
-
-  </div>
+    </div>
   </div>
 </div>
 

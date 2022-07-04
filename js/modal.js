@@ -11,8 +11,8 @@ function createEntity(str) {
   setFormDestination("http://localhost:8080/api/entity-details")
 
   createInput("Name","a","name","text","", true);
-  createInput("Name plural","b","namePlural","text","", true);
   createInlineCheckBoxInput("Create", "hasCreate");
+  createInlineCheckBoxInput("ReadAll", "hasReadAll");
   createInlineCheckBoxInput("Read", "hasRead");
   createInlineCheckBoxInput("Update", "hasUpdate");
   createInlineCheckBoxInput("Delete", "hasDelete");
@@ -83,6 +83,17 @@ async function updateRelation(variable) {
   createDropdownInput(relations, "Relation", "val1", variable.val1);
   createInput("Name", "a", "val2", "text", variable.val2, true);
   createDropdownInput(entities, "Entity", "val3", variable.val3);
+}
+
+async function createProject() {
+  clearModal();
+
+  setTitle("New project");
+  setMethod("POST");
+  setFormDestination("http://localhost:8080/api/projects")
+
+  createInput("Name", "spring-mvc-generator", "name", "text", "", true);
+
 }
 
 
