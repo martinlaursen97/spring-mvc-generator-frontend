@@ -1,5 +1,4 @@
 
-
 onload = async function loadProjects() {
   let user = await fetch("http://localhost:8080/api/users/1").then(r => r.json());
   localStorage.setItem("user", JSON.stringify(user));
@@ -15,6 +14,7 @@ onload = async function loadProjects() {
     div.innerText = p.name;
 
     div.addEventListener("click", () => {
+      localStorage.setItem("currentProjectId", JSON.stringify(p.id));
       localStorage.setItem("currentProject", JSON.stringify(p));
       window.location.href = "entities.html"
     })
@@ -24,6 +24,8 @@ onload = async function loadProjects() {
   })
 }
 
-async function getProjectsByUserId(id) {
-  return await fetch("http://localhost:8080/api/projects/user/" + id).then(r => r.json());
+async function update() {
+  let user = await fetch("http://localhost:8080/api/users/1").then(r => r.json());
+  localStorage.setItem("user", JSON.stringify(user));
+  return user;
 }

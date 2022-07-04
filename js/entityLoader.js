@@ -1,7 +1,18 @@
-onload = async function loadEntities() {
-  let project = JSON.parse(localStorage.getItem("currentProject"));
+async function setCurrentEntityById(id) {
+  let entity = await fetchEntityById(id).then(r => r.json());
+  localStorage.setItem("currentEntity", JSON.stringify(entity));
+}
 
-  let entities = project.entities;
+async function fetchEntityById(id) {
+  return await fetch("http://localhost:8080/api/entity-details/" + id);
+}
+
+onload = loadEntities();
+
+async function loadEntities() {
+  await setCurrentEntityById(JSON.parse(localStorage.getItem("currentEntity")).id);
+  loadCurrentEntity()
+  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
 
   let group = document.getElementById("entity-list");
 
@@ -17,7 +28,7 @@ onload = async function loadEntities() {
 
     div.addEventListener("click", async () => {
       localStorage.setItem("currentEntity", JSON.stringify(e));
-      await loadCurrentEntity();
+      loadCurrentEntity();
     });
     group.appendChild(div);
   });

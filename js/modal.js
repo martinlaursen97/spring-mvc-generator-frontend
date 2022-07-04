@@ -2,11 +2,13 @@ let title = document.querySelector(".modal-title")
 let inputField = document.getElementById("field");
 
 let method;
+let type;
 let form = document.getElementById("modal-form");
 
 function createEntity(str) {
   clearModal();
   setTitle(str);
+  setType("entity");
   setMethod("POST");
   setFormDestination("http://localhost:8080/api/entity-details")
 
@@ -18,71 +20,42 @@ function createEntity(str) {
   createInlineCheckBoxInput("Delete", "hasDelete");
 }
 
-function updateEntity(str) {
-  let entity = JSON.parse(localStorage.getItem("currentEntity"));
-
-  clearModal();
-  setTitle(str + entity.name);
-  setMethod("PUT");
-  setFormDestination("http://localhost:8080/api/entity-details/" + entity.id);
-
-  createInput("Name","a","name","text", entity.name, true);
-  createInput("Name plural","b","namePlural","text",entity.namePlural, true);
-  createInlineCheckBoxInput("Create", "hasCreate", entity.hasCreate);
-  createInlineCheckBoxInput("Read", "hasRead", entity.hasRead);
-  createInlineCheckBoxInput("Update", "hasUpdate", entity.hasUpdate);
-  createInlineCheckBoxInput("Delete", "hasDelete", entity.hasDelete);
-}
-
 function createVariable(str) {
   clearModal();
   setTitle(str);
   setMethod("POST");
+  setType("variable");
   setFormDestination("http://localhost:8080/api/variables")
 
-  createInput("Data type","a","val1","text","", true);
-  createInput("Variable name","b","val2","text","", true);
-  createInput("Column name","c","val3","text","", true);
-}
-
-async function createRelation(str) {
-  let relations = ["ManyToOne", "OneToMany", "OneToOne"];
-  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
-
-  clearModal();
-  setTitle(str);
-  setMethod("POST");
-  setFormDestination("http://localhost:8080/api/relations")
-
-  createDropdownInput(relations, "Relation", "val1");
-  createInput("Name", "a", "val2", "text", "", true);
-  createDropdownInput(entities, "Entity", "val3");
+  createInput("Data type","","dataType","text","", true);
+  createInput("Variable name","","name","text","", true);
+  createInput("Column name","","columnName","text","", true);
 }
 
 function updateVariable(variable) {
   clearModal();
-  setTitle(variable.val1);
+  setTitle("Update variable");
   setMethod("PUT");
-  setFormDestination("http://localhost:8080/api/variables/" + variable.id);
+  setType("variable");
+  setFormDestination("http://localhost:8080/api/variables/" + variable.id)
 
-  createInput("Data type","a","val1","text", variable.val1, true);
-  createInput("Variable name","b","val2","text", variable.val2, true);
-  createInput("Column name","c","val3","text", variable.val3, true);
+  createInput("Data type","","dataType","text", variable.dataType, true);
+  createInput("Variable name","","name","text", variable.name, true);
+  createInput("Column name","","columnName","text", variable.columnName, true);
 }
 
-async function updateRelation(variable) {
+async function createRelation(str) {
   let relations = ["ManyToOne", "OneToMany", "OneToOne"];
-  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
+  let entities = JSON.parse(localStorage.getItem("currentProject")).entities;
 
   clearModal();
+  setTitle(str);
+  setMethod("POST");
+  setType("relation");
+  setFormDestination("http://localhost:8080/api/relations")
 
-  setTitle(variable.val1);
-  setMethod("PUT");
-  setFormDestination("http://localhost:8080/api/relations/" + variable.id);
-
-  createDropdownInput(relations, "Relation", "val1", variable.val1);
-  createInput("Name", "a", "val2", "text", variable.val2, true);
-  createDropdownInput(entities, "Entity", "val3", variable.val3);
+  createDropdownInput(relations, "Annotation", "annotation");
+  createDropdownInput(entities, "Entity", "relatedTo");
 }
 
 async function createProject() {
@@ -90,6 +63,7 @@ async function createProject() {
 
   setTitle("New project");
   setMethod("POST");
+  setType("project");
   setFormDestination("http://localhost:8080/api/projects")
 
   createInput("Name", "spring-mvc-generator", "name", "text", "", true);
@@ -111,6 +85,10 @@ function setMethod(m) {
 
 function setTitle(str) {
   title.innerText = str;
+}
+
+function setType(t) {
+  type = t;
 }
 
 
