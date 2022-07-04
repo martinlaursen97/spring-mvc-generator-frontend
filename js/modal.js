@@ -4,22 +4,34 @@ let inputField = document.getElementById("field");
 let method;
 let form = document.getElementById("modal-form");
 
-function setTitle(str) {
-  title.innerHTML = str;
-}
-
 function createEntity(str) {
   clearModal();
   setTitle(str);
   setMethod("POST");
   setFormDestination("http://localhost:8080/api/entity-details")
 
-  createInput("Name","a","name","text","");
-  createInput("Name plural","b","namePlural","text","");
+  createInput("Name","a","name","text","", true);
+  createInput("Name plural","b","namePlural","text","", true);
   createInlineCheckBoxInput("Create", "hasCreate");
   createInlineCheckBoxInput("Read", "hasRead");
   createInlineCheckBoxInput("Update", "hasUpdate");
   createInlineCheckBoxInput("Delete", "hasDelete");
+}
+
+function updateEntity(str) {
+  let entity = JSON.parse(localStorage.getItem("currentEntity"));
+
+  clearModal();
+  setTitle(str + entity.name);
+  setMethod("PUT");
+  setFormDestination("http://localhost:8080/api/entity-details/" + entity.id);
+
+  createInput("Name","a","name","text", entity.name, true);
+  createInput("Name plural","b","namePlural","text",entity.namePlural, true);
+  createInlineCheckBoxInput("Create", "hasCreate", entity.hasCreate);
+  createInlineCheckBoxInput("Read", "hasRead", entity.hasRead);
+  createInlineCheckBoxInput("Update", "hasUpdate", entity.hasUpdate);
+  createInlineCheckBoxInput("Delete", "hasDelete", entity.hasDelete);
 }
 
 function createVariable(str) {
@@ -28,9 +40,9 @@ function createVariable(str) {
   setMethod("POST");
   setFormDestination("http://localhost:8080/api/variables")
 
-  createInput("Data type","a","val1","text","");
-  createInput("Variable name","b","val2","text","");
-  createInput("Column name","c","val3","text","");
+  createInput("Data type","a","val1","text","", true);
+  createInput("Variable name","b","val2","text","", true);
+  createInput("Column name","c","val3","text","", true);
 }
 
 async function createRelation(str) {
@@ -43,7 +55,7 @@ async function createRelation(str) {
   setFormDestination("http://localhost:8080/api/relations")
 
   createDropdownInput(relations, "Relation", "val1");
-  createInput("Name", "a", "val2", "text", "");
+  createInput("Name", "a", "val2", "text", "", true);
   createDropdownInput(entities, "Entity", "val3");
 }
 
@@ -53,9 +65,9 @@ function updateVariable(variable) {
   setMethod("PUT");
   setFormDestination("http://localhost:8080/api/variables/" + variable.id);
 
-  createInput("Data type","a","val1","text", variable.val1);
-  createInput("Variable name","b","val2","text", variable.val2);
-  createInput("Column name","c","val3","text", variable.val3);
+  createInput("Data type","a","val1","text", variable.val1, true);
+  createInput("Variable name","b","val2","text", variable.val2, true);
+  createInput("Column name","c","val3","text", variable.val3, true);
 }
 
 async function updateRelation(variable) {
@@ -69,9 +81,12 @@ async function updateRelation(variable) {
   setFormDestination("http://localhost:8080/api/relations/" + variable.id);
 
   createDropdownInput(relations, "Relation", "val1", variable.val1);
-  createInput("Name", "a", "val2", "text", variable.val2);
+  createInput("Name", "a", "val2", "text", variable.val2, true);
   createDropdownInput(entities, "Entity", "val3", variable.val3);
 }
+
+
+//
 
 
 function setFormDestination(action) {
@@ -83,7 +98,15 @@ function setMethod(m) {
   method = m;
 }
 
-function createInput(inputName, placeHolder, idName, type, value) {
+function setTitle(str) {
+  title.innerText = str;
+}
+
+
+// Modal build functions ---->
+
+
+function createInput(inputName, placeHolder, idName, type, value, isRequired) {
   const inputGroup = document.createElement("div");
   inputGroup.classList.add("input-group");
   inputGroup.classList.add("mb-3");
@@ -93,7 +116,10 @@ function createInput(inputName, placeHolder, idName, type, value) {
   input.name = idName;
   input.type = type;
   input.placeholder = placeHolder;
-  input.setAttribute("required", "");
+
+  if (isRequired) {
+    input.setAttribute("required", "");
+  }
 
   if (value !== undefined) {
     input.value = value;
@@ -154,7 +180,7 @@ function createDropdownInput(lst, inputName, idName, selectName) {
   inputField.appendChild(inputGroup);
 }
 
-function createInlineCheckBoxInput(inputName, idName) {
+function createInlineCheckBoxInput(inputName, idName, checked) {
   let div = document.createElement("div");
   div.classList.add("form-check");
   div.classList.add("form-check-inline");
@@ -163,7 +189,11 @@ function createInlineCheckBoxInput(inputName, idName) {
   input.classList.add("form-check-input");
   input.type = "checkbox";
   input.id = idName;
-  input.value = "false";
+  if (checked !== undefined) {
+    input.checked = checked;
+  } else {
+    input.checked = true;
+  }
 
   let label = document.createElement("label");
   label.classList.add("form-check-label");
