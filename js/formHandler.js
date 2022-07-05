@@ -31,8 +31,6 @@ async function handleFormSubmit(event) {
       data = toProject(plainFormData, userId);
     }
 
-
-
     await sendJson(url, data);
   } catch (err) {
     alert(err);
@@ -83,7 +81,7 @@ function toEntity(data, id) {
   project.id = id;
 
   let entity = {};
-  entity.name = data.name;
+  entity.name = data.name.toUpperCase();
   entity.project = project;
   entity.hasCreate = document.getElementById("hasCreate").checked;
   entity.hasReadAll = document.getElementById("hasReadAll").checked;
@@ -99,7 +97,7 @@ function toVariable(data, id) {
   entity.id = id;
 
   let variable = {};
-  variable.name = data.name;
+  variable.name = data.name.toUpperCase();
   variable.dataType = data.dataType;
   variable.columnName = data.columnName;
   variable.entity = entity;
