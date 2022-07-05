@@ -52,6 +52,7 @@ async function sendJson(url, data) {
   if (response.ok) {
     await setup();
   }
+  return response;
 }
 
 async function deleteByUrl(url) {
@@ -114,4 +115,20 @@ function toRelation(data, id) {
 
 function toProject(data, user) {
 
+}
+
+async function downloadProject() {
+  setMethod("POST");
+  let id = JSON.parse(localStorage.getItem("currentProject")).id;
+  let project = await fetch("http://localhost:8080/api/projects/" + id).then(r => r.json());
+
+  console.log(project);
+  await sendJson("http://localhost:8080/api/projects/download", project)
+    .then((res) => { return res.blob(); })
+    .then((data) => {
+      const a = document.createElement("a");
+      a.href = window.URL.createObjectURL(data);
+      a.download = "test.zip";
+      a.click();
+    });
 }
