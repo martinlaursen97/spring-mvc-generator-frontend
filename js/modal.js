@@ -10,7 +10,7 @@ function createEntity(str) {
   setTitle(str);
   setType("entity");
   setMethod("POST");
-  setFormDestination("http://localhost:8080/api/entity-details")
+  setFormDestination("http://localhost:8080/api/entities")
 
   createInput("Name","a","name","text","", true);
   createInlineCheckBoxInput("Create", "hasCreate");
@@ -18,6 +18,23 @@ function createEntity(str) {
   createInlineCheckBoxInput("Read", "hasRead");
   createInlineCheckBoxInput("Update", "hasUpdate");
   createInlineCheckBoxInput("Delete", "hasDelete");
+}
+
+function updateEntity(str) {
+  let entity = JSON.parse(localStorage.getItem("currentEntity"));
+
+  clearModal();
+  setTitle(str);
+  setType("entity");
+  setMethod("PUT");
+  setFormDestination("http://localhost:8080/api/entities/" + entity.id)
+
+  createInput("Name","a","name","text",entity.name, true);
+  createInlineCheckBoxInput("Create", "hasCreate", entity.hasCreate);
+  createInlineCheckBoxInput("ReadAll", "hasReadAll", entity.hasReadAll);
+  createInlineCheckBoxInput("Read", "hasRead", entity.hasRead);
+  createInlineCheckBoxInput("Update", "hasUpdate", entity.hasUpdate);
+  createInlineCheckBoxInput("Delete", "hasDelete", entity.hasDelete);
 }
 
 function createVariable(str) {
@@ -29,7 +46,7 @@ function createVariable(str) {
 
   createInput("Data type","","dataType","text","", true);
   createInput("Variable name","","name","text","", true);
-  createInput("Column name","","columnName","text","", true);
+  createInput("Column name","","columnName","text","", false);
 }
 
 function updateVariable(variable) {
@@ -41,7 +58,7 @@ function updateVariable(variable) {
 
   createInput("Data type","","dataType","text", variable.dataType, true);
   createInput("Variable name","","name","text", variable.name, true);
-  createInput("Column name","","columnName","text", variable.columnName, true);
+  createInput("Column name","","columnName","text", variable.columnName, false);
 }
 
 async function createRelation(str) {
@@ -58,6 +75,21 @@ async function createRelation(str) {
   createDropdownInput(entities, "Entity", "relatedTo");
 }
 
+async function updateRelation(relation) {
+  let relations = ["ManyToOne", "OneToMany", "OneToOne"];
+  let entities = JSON.parse(localStorage.getItem("currentProject")).entities;
+
+  clearModal();
+
+  setTitle("Update relation")
+  setMethod("PUT");
+  setType("relation");
+  setFormDestination("http://localhost:8080/api/relations/" + relation.id)
+
+  createDropdownInput(relations, "Annotation", "annotation", relation.annotation);
+  createDropdownInput(entities, "Entity", "relatedTo", relation.relatedTo);
+}
+
 async function createProject() {
   clearModal();
 
@@ -68,6 +100,13 @@ async function createProject() {
 
   createInput("Name", "spring-mvc-generator", "name", "text", "", true);
 
+}
+
+async function deleteCurrentEntity() {
+  let entity = JSON.parse(localStorage.getItem("currentEntity"));
+  setType("entity");
+  setMethod("DELETE");
+  await deleteByUrl("http://localhost:8080/api/entities/" + entity.id)
 }
 
 

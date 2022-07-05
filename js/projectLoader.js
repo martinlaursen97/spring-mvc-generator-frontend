@@ -1,6 +1,8 @@
 
 onload = async function loadProjects() {
+
   let user = await fetch("http://localhost:8080/api/users/1").then(r => r.json());
+
   localStorage.setItem("user", JSON.stringify(user));
 
   let projects = user.projectList;
@@ -22,10 +24,4 @@ onload = async function loadProjects() {
     group.appendChild(div);
 
   })
-}
-
-async function update() {
-  let user = await fetch("http://localhost:8080/api/users/1").then(r => r.json());
-  localStorage.setItem("user", JSON.stringify(user));
-  return user;
 }

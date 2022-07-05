@@ -20,6 +20,7 @@ async function handleFormSubmit(event) {
 
     if (type === "entity") {
       data = toEntity(plainFormData, projectId);
+
     }
     else if (type === "variable") {
       data = toVariable(plainFormData, entityId);
@@ -49,7 +50,24 @@ async function sendJson(url, data) {
   let response = await fetch(url, fetchOptions);
 
   if (response.ok) {
-    await loadEntities();
+    await setup();
+  }
+}
+
+async function deleteByUrl(url) {
+  const fetchOptions = {
+    method: method,
+    headers: {
+      "Content-Type": "application/json"
+    },
+  };
+
+  let response = await fetch(url, fetchOptions);
+
+  if (response.ok) {
+    localStorage.setItem("currentEntity", "{}");
+    await setup();
+    loadCurrentEntity()
   }
 }
 

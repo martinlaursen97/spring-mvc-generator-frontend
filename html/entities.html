@@ -63,10 +63,10 @@
 
   <a href="projects.html" id="top-right-href">Projects</a>
 
-  <div class="container" style="max-width: 900px">
+  <div class="container" id="content" style="max-width: 900px; display: none">
     <h1 class="display-3 p-1"  id="page-entity-name" style="display: inline-block; margin-top: 45px">Entity name</h1>
     <button onclick="updateEntity('Update entity: ')" type="button" class="btn btn-outline-dark btn-lg" style="margin-bottom:30px; margin-left:10px" data-bs-toggle="modal" data-bs-target="#myModal">Update</button>
-    <button onclick="" type="button" class="btn btn-outline-danger btn-lg"  style="margin-bottom:30px;">Delete</button>
+    <button onclick="deleteCurrentEntity()" type="button" class="btn btn-outline-danger btn-lg"  style="margin-bottom:30px;">Delete</button>
 
     <div class="container- shadow p-3 mb-5 bg-white rounded w-100 p-4 " style="margin-top: 100px">
 
@@ -85,9 +85,6 @@
         <button onclick="createRelation('New relation')" type="button" class="btn btn-outline-dark btn-lg" style="float:right" data-bs-toggle="modal" data-bs-target="#myModal">+</button>
 
         <div class="list-group" id="relationship-list">
-          <div class="list-group-item list-group-item-action" >HELLo</div>
-          <div class="list-group-item list-group-item-action" >HELLo</div>
-
 
         </div>
 

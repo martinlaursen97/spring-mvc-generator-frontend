@@ -4,27 +4,50 @@ async function setCurrentEntityById(id) {
 }
 
 async function fetchEntityById(id) {
-  return await fetch("http://localhost:8080/api/entity-details/" + id);
+  return await fetch("http://localhost:8080/api/entities/" + id);
 }
 
-onload = loadEntities();
+async function fetchProjectById(id) {
+  return await fetch("http://localhost:8080/api/projects/" + id).then(r => r.json());
+}
+
+onload = setup();
+
+async function setup() {
+  await loadEntities();
+
+  let currentEntity = JSON.parse(localStorage.getItem("currentEntity"));
+  let id = currentEntity.id;
+
+
+  let projectId = localStorage.getItem("currentProjectId");
+  localStorage.setItem("currentProject", JSON.stringify(await fetchProjectById(projectId)));
+
+
+
+  if (id === undefined) {
+    let group = document.getElementById("entity-list");
+    id = group.firstElementChild.getAttribute("value");
+  }
+
+  await setCurrentEntityById(id);
+  loadCurrentEntity()
+
+}
 
 async function loadEntities() {
-  await setCurrentEntityById(JSON.parse(localStorage.getItem("currentEntity")).id);
-  loadCurrentEntity()
-  let entities = await fetch("http://localhost:8080/api/entity-details").then(r => r.json());
-
   let group = document.getElementById("entity-list");
 
-  loadCurrentEntity()
-
   clearGroup(group);
+
+  let entities = await fetch("http://localhost:8080/api/entities").then(r => r.json());
 
   entities.forEach(e => {
     let div = document.createElement("div");
     div.classList.add("list-group-item");
     div.classList.add("list-group-item-action");
     div.innerHTML = e.name;
+    div.setAttribute("value", e.id);
 
     div.addEventListener("click", async () => {
       localStorage.setItem("currentEntity", JSON.stringify(e));
@@ -32,6 +55,14 @@ async function loadEntities() {
     });
     group.appendChild(div);
   });
+
+  let entityList = document.getElementById("entity-list");
+  let content = document.getElementById("content");
+  if (entityList.childElementCount === 0) {
+    content.style.display = "none";
+  } else {
+    content.style.display = "";
+  }
 }
 
 function loadCurrentEntity() {
@@ -59,7 +90,6 @@ function loadCurrentEntity() {
 
     variableList.appendChild(div);
   })
-
 
 
   let relationList = document.getElementById("relationship-list");
