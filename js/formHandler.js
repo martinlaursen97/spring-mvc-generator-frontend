@@ -17,7 +17,6 @@ async function handleFormSubmit(event) {
     let entityId = JSON.parse(localStorage.getItem("currentEntity")).id;
     let userId = JSON.parse(localStorage.getItem("user")).id;
 
-
     if (type === "entity") {
       data = toEntity(plainFormData, projectId);
 
@@ -31,6 +30,8 @@ async function handleFormSubmit(event) {
     else if (type === "project") {
       data = toProject(plainFormData, userId);
     }
+
+
 
     await sendJson(url, data);
   } catch (err) {
@@ -50,7 +51,12 @@ async function sendJson(url, data) {
   let response = await fetch(url, fetchOptions);
 
   if (response.ok) {
-    await setup();
+    if (type !== "project") {
+      await setup();
+    } else {
+      await loadProjects();
+    }
+
   }
   return response;
 }
@@ -68,7 +74,7 @@ async function deleteByUrl(url) {
   if (response.ok) {
     localStorage.setItem("currentEntity", "{}");
     await setup();
-    loadCurrentEntity()
+
   }
 }
 
@@ -113,22 +119,35 @@ function toRelation(data, id) {
   return relation;
 }
 
-function toProject(data, user) {
+function toProject(data, id) {
+  let user = {};
+  user.id = id;
 
+  let project = {};
+  project.name = data.name;
+  project.user = user;
+
+  return project;
 }
 
 async function downloadProject() {
-  setMethod("POST");
-  let id = JSON.parse(localStorage.getItem("currentProject")).id;
-  let project = await fetch("http://localhost:8080/api/projects/" + id).then(r => r.json());
+  if (document.getElementById("entity-list").hasChildNodes()) {
+    setMethod("POST");
+    let id = JSON.parse(localStorage.getItem("currentProject")).id;
+    let project = await fetch("http://localhost:8080/api/projects/" + id).then(r => r.json());
 
-  console.log(project);
-  await sendJson("http://localhost:8080/api/projects/download", project)
-    .then((res) => { return res.blob(); })
-    .then((data) => {
-      const a = document.createElement("a");
-      a.href = window.URL.createObjectURL(data);
-      a.download = "test.zip";
-      a.click();
+    console.log(project);
+    await sendJson("http://localhost:8080/api/projects/download", project)
+      .then((res) => {
+        return res.blob();
+      })
+      .then((data) => {
+        const a = document.createElement("a");
+        a.href = window.URL.createObjectURL(data);
+        a.download = "test.zip";
+        a.click();
     });
+  } else {
+    alert("There are no entities in this project")
+  }
 }

@@ -14,14 +14,13 @@ async function fetchProjectById(id) {
 onload = setup();
 
 async function setup() {
+  let projectId = localStorage.getItem("currentProjectId");
+  localStorage.setItem("currentProject", JSON.stringify(await fetchProjectById(projectId)));
+
   await loadEntities();
 
   let currentEntity = JSON.parse(localStorage.getItem("currentEntity"));
   let id = currentEntity.id;
-
-
-  let projectId = localStorage.getItem("currentProjectId");
-  localStorage.setItem("currentProject", JSON.stringify(await fetchProjectById(projectId)));
 
 
 
@@ -40,7 +39,8 @@ async function loadEntities() {
 
   clearGroup(group);
 
-  let entities = await fetch("http://localhost:8080/api/entities").then(r => r.json());
+  //let entities = await fetch("http://localhost:8080/api/entities").then(r => r.json());
+  let entities = JSON.parse(localStorage.getItem("currentProject")).entities;
 
   entities.forEach(e => {
     let div = document.createElement("div");
@@ -114,9 +114,4 @@ function loadCurrentEntity() {
   })
 }
 
-function clearGroup(group) {
-  while (group.hasChildNodes()) {
-    group.removeChild(group.firstChild);
-  }
-}
 

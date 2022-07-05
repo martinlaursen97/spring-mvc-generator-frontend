@@ -239,3 +239,9 @@ function clearModal() {
     inputField.removeChild(inputField.firstChild);
   }
 }
+
+function clearGroup(group) {
+  while (group.hasChildNodes()) {
+    group.removeChild(group.firstChild);
+  }
+}

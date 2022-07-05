@@ -1,5 +1,6 @@
+onload = loadProjects();
 
-onload = async function loadProjects() {
+async function loadProjects() {
 
   let user = await fetch("http://localhost:8080/api/users/1").then(r => r.json());
 
@@ -8,6 +9,7 @@ onload = async function loadProjects() {
   let projects = user.projectList;
 
   let group = document.getElementById("projects-list");
+  clearGroup(group);
 
   projects.forEach(p => {
     let div = document.createElement("div");
@@ -18,6 +20,7 @@ onload = async function loadProjects() {
     div.addEventListener("click", () => {
       localStorage.setItem("currentProjectId", JSON.stringify(p.id));
       localStorage.setItem("currentProject", JSON.stringify(p));
+      localStorage.setItem("currentEntity", "{}")
       window.location.href = "entities.html"
     })
 
