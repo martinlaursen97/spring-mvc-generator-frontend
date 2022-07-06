@@ -81,7 +81,7 @@ function toEntity(data, id) {
   project.id = id;
 
   let entity = {};
-  entity.name = data.name.toUpperCase();
+  entity.name = data.name;
   entity.project = project;
   entity.hasCreate = document.getElementById("hasCreate").checked;
   entity.hasReadAll = document.getElementById("hasReadAll").checked;
@@ -97,7 +97,7 @@ function toVariable(data, id) {
   entity.id = id;
 
   let variable = {};
-  variable.name = data.name.toUpperCase();
+  variable.name = data.name;
   variable.dataType = data.dataType;
   variable.columnName = data.columnName;
   variable.entity = entity;
