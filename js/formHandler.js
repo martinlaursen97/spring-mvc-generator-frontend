@@ -2,6 +2,7 @@ const formSubmit = document.getElementById("modal-form");
 formSubmit.addEventListener("submit", handleFormSubmit);
 
 async function handleFormSubmit(event) {
+
   event.preventDefault();
 
   const form = event.currentTarget;
@@ -12,10 +13,21 @@ async function handleFormSubmit(event) {
     const plainFormData = Object.fromEntries(formData.entries());
 
     let data;
+    let projectId;
+    let entityId;
+    let userId;
 
-    let projectId = JSON.parse(localStorage.getItem("currentProject")).id;
-    let entityId = JSON.parse(localStorage.getItem("currentEntity")).id;
-    let userId = JSON.parse(localStorage.getItem("user")).id;
+    if (localStorage.getItem("currentProject") !== null) {
+      projectId = JSON.parse(localStorage.getItem("currentProject")).id;
+    }
+
+    if (localStorage.getItem("currentEntity") !== null) {
+      entityId = JSON.parse(localStorage.getItem("currentEntity")).id;
+    }
+
+    if (localStorage.getItem("userId") !== null) {
+      userId = JSON.parse(localStorage.getItem("userId"));
+    }
 
     if (type === "entity") {
       data = toEntity(plainFormData, projectId);
@@ -147,4 +159,8 @@ async function downloadProject() {
   } else {
     alert("There are no entities in this project")
   }
+}
+
+function logout() {
+  localStorage.clear();
 }

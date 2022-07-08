@@ -1,8 +1,8 @@
 onload = loadProjects();
 
 async function loadProjects() {
-
-  let user = await fetch("http://localhost:8080/api/users/1").then(r => r.json());
+  let userId = JSON.parse(localStorage.getItem("userId"));
+  let user = await fetch("http://localhost:8080/api/users/" + userId).then(r => r.json());
 
   localStorage.setItem("user", JSON.stringify(user));
 
