@@ -47,8 +47,6 @@ async function postFormDataAsJson(url, formData, isLogin) {
   const response = await fetch(url, fetchOptions);
   const user = await response.json();
 
-  alert(JSON.stringify(user));
-
   if (response.ok) {
     if (isLogin) {
       localStorage.setItem("userId", user.id);
