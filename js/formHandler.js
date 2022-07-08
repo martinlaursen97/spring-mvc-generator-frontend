@@ -19,7 +19,6 @@ async function handleFormSubmit(event) {
 
     if (type === "entity") {
       data = toEntity(plainFormData, projectId);
-
     }
     else if (type === "variable") {
       data = toVariable(plainFormData, entityId);
